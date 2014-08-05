@@ -305,9 +305,9 @@ public class DefaultHeaderTransformer extends HeaderTransformer {
             mHeaderTextView.setBackgroundDrawable(bg);
 
             // If we have an opaque background we can remove the background from the content layout
-            if (mContentLayout != null && bg.getOpacity() == PixelFormat.OPAQUE) {
+//            if (mContentLayout != null && (bg.getOpacity() == PixelFormat.OPAQUE || bg.getOpacity() == PixelFormat.TRANSPARENT)) {
                 mContentLayout.setBackgroundResource(0);
-            }
+//            }
         }
 
         // Retrieve the Action Bar Title Style from the app theme or the Action Bar's style
@@ -323,6 +323,7 @@ public class DefaultHeaderTransformer extends HeaderTransformer {
         if (styleAttrs.hasValue(R.styleable.PullToRefreshHeader_ptrProgressBarColor)) {
             mProgressDrawableColor = styleAttrs.getColor(
                     R.styleable.PullToRefreshHeader_ptrProgressBarColor, mProgressDrawableColor);
+          mHeaderProgressBar.setSmoothProgressDrawableColor(mProgressDrawableColor);
         }
 
         mProgressBarStyle = styleAttrs.getInt(

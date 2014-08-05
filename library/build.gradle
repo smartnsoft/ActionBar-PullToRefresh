@@ -1,18 +1,41 @@
 apply plugin: 'android-library'
+apply plugin: 'maven'
 
 dependencies {
-    compile 'com.github.castorflex.smoothprogressbar:library:0.4.+@aar'
+    compile 'com.github.castorflex.smoothprogressbar:library:0.5.2@aar'
 }
 
 android {
     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
     buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
 
+lintOptions {
+          abortOnError false
+      }
+
+
     defaultConfig {
         // This should be 14, but is 7 because extra-abc/extra-abs depend on this library
         minSdkVersion 7
         targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
     }
+
+def coreAarFile = file('build/libs/library.aar')
+artifacts {
+    archives coreAarFile
+}
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: nexusThirdPartyUrl)
+	{
+           authentication(userName: nexusUsername, password: nexusPassword)
+	}
+            pom.groupId = 'com.github.chrisbanes.actionbarpulltorefresh'
+            pom.artifactId = 'library'
+            pom.version = '0.9.9.6'
+        }
+    }
+}
 }
 
-apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
